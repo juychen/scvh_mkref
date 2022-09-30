@@ -14,6 +14,7 @@ COPY . /code
 
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
+		curl \
 	    apt-utils \
 		ed \
 		less \
@@ -41,7 +42,7 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.13/samtools-1.
     make install && \
     echo "export PATH=/opt/samtools/bin:\$PATH" >> ~/.bashrc && \
     . ~/.bashrc && \
-    chmod 755 /code
+    chmod -R 755 /code
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8

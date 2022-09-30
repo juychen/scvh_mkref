@@ -20,10 +20,6 @@ my $prokaryotes = "/code/prokaryotes.csv";
 
 #######################################################################################
 my $output_prefix = "human_host_viruses_microbes";
-#my $source = "viruSITE";
-my $source = "viruSITE.NCBIprokaryotes";
-
-#min length to be evaluated by minimap2
 my $min_length_exon = 50;
 my $threads = 20;
 my $seq_divergence = 20;
