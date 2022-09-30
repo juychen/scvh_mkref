@@ -15,7 +15,9 @@ my $dir = "/";
 my $human_fa = "/code/utilities/hg38.fa";
 my $human_gtf = "/code/utilities/hg38.unique_gene_names.gtf";
 my $source = "viruSITE.NCBIprokaryotes";
-my $source = "viruSITE.NCBIprokaryotes";
+my $viruSITE = "/code/viruSITE_human_host.txt";
+my $prokaryotes = "/code/prokaryotes.csv";
+
 #######################################################################################
 my $output_prefix = "human_host_viruses_microbes";
 #my $source = "viruSITE";
@@ -38,6 +40,8 @@ GetOptions(
 	'd|database=s' => \$source,
 	'human_fa=s' => \$human_fa,
 	'human_gtf=s' => \$human_gtf,
+	'viruSITE=s' => \$viruSITE,
+	'prokaryotes=s' => \$prokaryotes,
 	'output_prefix=s' => \$output_prefix,
 	'min_length_exon=i' => \$min_length_exon,
 	'seq_divergence=i' => \$min_length_exon,
@@ -54,13 +58,15 @@ Options:                                                                        
 --output_prefix <string>  	Prefix of the output file, can be 'human_host_viruses' or 'human_host_viruses_microbes'                       [<$output_prefix>]
 --human_fa <string>  		Input path of the human fa file                                                          					  [<$human_fa>]
 --human_gtf <string>  		Input path of the human gtf file                                                          					  [<$human_gtf>]
+--viruSITE <string>  		Input path of the viruSITE accesion file                                                          	  		  [<$viruSITE>]
+--prokaryotes <string>  	Input path of the prokaryotes acccesion file                                                          		  [<$prokaryotes>]
 --min_length_exon <int>  	minimap2 param:  See --min_length_exon in minimap2 manual                              			  			  [<$min_length_exon>]
 --seq_divergence <int>  	minimap2 param:  See --seq_divergence in minimap2 manual                              						  [<$seq_divergence>]
 ";
 }
 
-download("/code/viruSITE_human_host.txt");
-download("/code/prokaryotes.csv");
+download($viruSITE);
+download($prokaryotes);
 
 my $set = "with_hg38";
 
