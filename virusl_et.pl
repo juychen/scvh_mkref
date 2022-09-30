@@ -31,7 +31,7 @@ my $output_dir_gtf = "$output_dir/gtf";
 mkdir $output_dir_gtf unless (-d $output_dir_gtf);
 
 GetOptions(
-	'o|output-dir=s' => \$output_dir,
+	'o|output_dir=s' => \$output_dir,
 	't|threads=i' => \$threads,
 	'd|database=s' => \$source,
 	'human_fa=s' => \$human_fa,
