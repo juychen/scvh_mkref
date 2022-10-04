@@ -155,6 +155,11 @@ sub remove_amb_viral_exon_annot_using_minimap2 {
 	my $minimap2_output_bam = $output_dir . "/hg38.$source.$feature.bam";
 	my $minimap2_output_sorted_bam = $output_dir . "/hg38.$source.$feature.sorted.bam";
 	#######################
+
+	system("$minimap2 -ax $preset -t $threads $human_fa $output_file > $minimap2_output_sam");
+	system("$samtools view -Sb -F 4 $minimap2_output_sam > $minimap2_output_bam");
+	system("$samtools sort -o $minimap2_output_sorted_bam $minimap2_output_bam");
+	system("$samtools index $minimap2_output_sorted_bam");
 	
 	my %to_remove;
 	open $IN, "$samtools view $minimap2_output_sorted_bam |" or die "can't open $minimap2_output_sorted_bam\n";
@@ -285,8 +290,8 @@ sub merge {
 	mkdir $output_dir_set unless (-d $output_dir_set);
 
 	#copy 10x barcodes whitelist
-	my $whitelist = "/home/asdfken/data/Cellranger_barcodes_whitelist/737K-august-2016.txt";
-	system("cp $whitelist $output_dir_set");
+	# my $whitelist = "/home/asdfken/data/Cellranger_barcodes_whitelist/737K-august-2016.txt";
+	# system("cp $whitelist $output_dir_set");
 	
 	my $viral_gtf_temp = "$output_prefix.$source.gtf.temp";
 
