@@ -11,27 +11,21 @@ use FAlite;
 my $samtools = "samtools";
 my $gffread = "/code/utilities/gffread/gffread";
 my $minimap2 = "/code/utilities/minimap2/minimap2";
-my $dir = "/";
+my $dir = "./";
 my $human_fa = "/code/utilities/hg38.fa";
 my $human_gtf = "/code/utilities/hg38.unique_gene_names.gtf";
 my $source = "viruSITE.NCBIprokaryotes";
-my $viruSITE = "/code/viruSITE_human_host.txt";
-my $prokaryotes = "/code/prokaryotes.csv";
+my $viruSITE = "None";
+my $prokaryotes = "None";
 
 #######################################################################################
 my $output_prefix = "human_host_viruses_microbes";
 my $min_length_exon = 50;
 my $threads = 20;
 my $seq_divergence = 20;
-my $output_dir = "$dir/human_host_viruses_reference_set";
-mkdir $output_dir unless (-d $output_dir);
-my $output_dir_fa = "$output_dir/fa";
-mkdir $output_dir_fa unless (-d $output_dir_fa);
-my $output_dir_gtf = "$output_dir/gtf";
-mkdir $output_dir_gtf unless (-d $output_dir_gtf);
 
 GetOptions(
-	'o|output_dir=s' => \$output_dir,
+	'o|output_dir=s' => \$dir,
 	't|threads=i' => \$threads,
 	'd|database=s' => \$source,
 	'human_fa=s' => \$human_fa,
@@ -48,21 +42,34 @@ die "
 Usage: scvh_map_reads.pl [Options] <vmh_genome_dir> <R2> <R1> or <vmh_genome_dir> <.bam file>
 
 Options:                                                                                                                                Defaults
--o/--output-dir	<string>   	the output directory                                                                                          [<$output_dir>]
+-o/--output_dir	<string>   	the output directory                                                                                          [<$dir>]
 -t/--threads <int>         	number of threads to run alignment with                                                                       [<$threads>]
 -d/--database <string>     	select virus or virus and prokaryotes database, can be 'viruSITE' or 'viruSITE.NCBIprokaryotes'               [<$source>]
 --output_prefix <string>  	Prefix of the output file, can be 'human_host_viruses' or 'human_host_viruses_microbes'                       [<$output_prefix>]
 --human_fa <string>  		Input path of the human fa file                                                          					  [<$human_fa>]
 --human_gtf <string>  		Input path of the human gtf file                                                          					  [<$human_gtf>]
---viruSITE <string>  		Input path of the viruSITE accesion file                                                          	  		  [<$viruSITE>]
---prokaryotes <string>  	Input path of the prokaryotes acccesion file                                                          		  [<$prokaryotes>]
+--viruSITE <string>  		Input path of the viruSITE accesion file, default 'None'                                                      [<$viruSITE>]
+--prokaryotes <string>  	Input path of the prokaryotes acccesion file, default 'None'                                                  [<$prokaryotes>]
 --min_length_exon <int>  	minimap2 param:  See --min_length_exon in minimap2 manual                              			  			  [<$min_length_exon>]
 --seq_divergence <int>  	minimap2 param:  See --seq_divergence in minimap2 manual                              						  [<$seq_divergence>]
 ";
-}
+}  
 
-download($viruSITE);
-download($prokaryotes);
+my $output_dir = "$dir/human_host_viruses_reference_set";
+mkdir $output_dir unless (-d $output_dir);
+my $output_dir_fa = "$output_dir/fa";
+mkdir $output_dir_fa unless (-d $output_dir_fa);
+my $output_dir_gtf = "$output_dir/gtf";
+mkdir $output_dir_gtf unless (-d $output_dir_gtf);
+
+if($viruSITE ne "None")
+{
+	download($viruSITE);
+}
+if($prokaryotes ne "None")
+{
+	download($prokaryotes);
+}
 
 my $set = "with_hg38";
 
